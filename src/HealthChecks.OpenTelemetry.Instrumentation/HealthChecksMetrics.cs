@@ -21,6 +21,7 @@ internal class HealthChecksMetrics
         MeterInstance.CreateObservableGauge(options.StatusGaugeName,
             () =>
             {
+                // todo: feels like there is a better way to share the result between these two gauges
                 if (!_useCachedReport || _sharedReport == null)
                 {
                     _useCachedReport = true;

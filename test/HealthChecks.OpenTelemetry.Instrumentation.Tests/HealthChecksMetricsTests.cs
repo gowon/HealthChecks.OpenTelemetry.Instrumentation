@@ -18,7 +18,6 @@ public class HealthChecksMetricsTests
         List<Metric> exportedItems = new();
         var result = HealthCheckResult.Healthy();
 
-
         using var meterProvider = Sdk.CreateMeterProviderBuilder()
             .ConfigureServices(services =>
             {
@@ -27,7 +26,7 @@ public class HealthChecksMetricsTests
                     .AddLogging()
                     .AddOptions()
                     .AddHealthChecks()
-                    .AddAsyncCheck("TestSample", async () =>
+                    .AddAsyncCheck("test", async () =>
                     {
                         await Task.Delay(100);
                         return result;
@@ -39,14 +38,6 @@ public class HealthChecksMetricsTests
 
         // Act
         using MeterListener meterListener = new();
-        meterListener.InstrumentPublished = (instrument, listener) =>
-        {
-            if (instrument.Meter.Name == HealthChecksMetrics.MeterInstance.Name)
-            {
-                listener.EnableMeasurementEvents(instrument);
-            }
-        };
-
         meterListener.RecordObservableInstruments();
         meterProvider.ForceFlush(MaxTimeToAllowForFlush);
 
@@ -62,6 +53,20 @@ public class HealthChecksMetricsTests
         Assert.NotNull(durationMetric);
         Assert.Equal(MetricType.DoubleGauge, durationMetric.MetricType);
         Assert.True(GetValue(durationMetric) > 0);
+    }
+
+    [Theory]
+    [InlineData(HealthStatus.Healthy, 1.0D)]
+    [InlineData(HealthStatus.Degraded, 0.5D)]
+    [InlineData(HealthStatus.Unhealthy, 0.0D)]
+    public void HealthStatusConvertedToMetricValue(HealthStatus status, double expected)
+    {
+        // Arrange
+        // Act
+        var result = HealthChecksMetrics.HealthStatusToMetricValue(status);
+
+        // Assert
+        Assert.Equal(expected, result);
     }
 
     // ref: https://github.com/open-telemetry/opentelemetry-dotnet-contrib/blob/85ee94ca4a55099b1ac8a0552bcec15e01e12729/test/OpenTelemetry.Instrumentation.Runtime.Tests/RuntimeMetricsTests.cs#L188
