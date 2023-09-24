@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34003.232
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthChecks.OpenTelemetry.Instrumentation", "src\HealthChecks.OpenTelemetry.Instrumentation\HealthChecks.OpenTelemetry.Instrumentation.csproj", "{5E1CAEAD-BFE0-45D4-A628-9EB24D53AB98}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1BBD1059-F298-48DE-9273-AFAC48D34B8C}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleApi", "samples\SampleApi\SampleApi.csproj", "{71E75D04-1489-4570-91D3-8FC2513825A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthChecks.OpenTelemetry.Instrumentation.Tests", "test\HealthChecks.OpenTelemetry.Instrumentation.Tests\HealthChecks.OpenTelemetry.Instrumentation.Tests.csproj", "{EFB5BFBA-97E5-4BFB-AEE0-C5EC168C5B25}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E1CAEAD-BFE0-45D4-A628-9EB24D53AB98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E1CAEAD-BFE0-45D4-A628-9EB24D53AB98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E1CAEAD-BFE0-45D4-A628-9EB24D53AB98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E1CAEAD-BFE0-45D4-A628-9EB24D53AB98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71E75D04-1489-4570-91D3-8FC2513825A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71E75D04-1489-4570-91D3-8FC2513825A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71E75D04-1489-4570-91D3-8FC2513825A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71E75D04-1489-4570-91D3-8FC2513825A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFB5BFBA-97E5-4BFB-AEE0-C5EC168C5B25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFB5BFBA-97E5-4BFB-AEE0-C5EC168C5B25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB5BFBA-97E5-4BFB-AEE0-C5EC168C5B25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFB5BFBA-97E5-4BFB-AEE0-C5EC168C5B25}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E05FE811-3C34-4F6E-ABF4-1B379E73ECF6}
+	EndGlobalSection
+EndGlobal
