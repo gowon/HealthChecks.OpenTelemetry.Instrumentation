@@ -1,5 +1,7 @@
 # HealthChecks Instrumentation for OpenTelemetry .NET
 
+[![feedz.io](https://img.shields.io/badge/endpoint.svg?url=https%3A%2F%2Ff.feedz.io%2Fgowon%2Fpre-release%2Fshield%2FHealthChecks.OpenTelemetry.Instrumentation%2Flatest)](https://f.feedz.io/gowon/pre-release/packages/HealthChecks.OpenTelemetry.Instrumentation/latest/download)
+
 This is an [Instrumentation
 Library](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/glossary.md#instrumentation-library),
 which instruments [ Microsoft.Extensions.Diagnostics.HealthChecks](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks) and
@@ -9,13 +11,13 @@ collect telemetry about the application health checks.
 
 ### Step 1: Install package
 
-<!--Add a reference to the
+Add a reference to the
 [`HealthChecks.OpenTelemetry.Instrumentation`](https://www.nuget.org/packages/HealthChecks.OpenTelemetry.Instrumentation)
 package.
 
 ```shell
 dotnet add package HealthChecks.OpenTelemetry.Instrumentation
-```-->
+```
 
 ### Step 2: Enable HealthChecks Instrumentation
 
