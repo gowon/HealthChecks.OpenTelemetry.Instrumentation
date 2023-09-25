@@ -7,12 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthChecks.OpenTelemetry.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1BBD1059-F298-48DE-9273-AFAC48D34B8C}"
 	ProjectSection(SolutionItems) = preProject
+		commands.json = commands.json
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleApi", "samples\SampleApi\SampleApi.csproj", "{71E75D04-1489-4570-91D3-8FC2513825A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthChecks.OpenTelemetry.Instrumentation.Tests", "test\HealthChecks.OpenTelemetry.Instrumentation.Tests\HealthChecks.OpenTelemetry.Instrumentation.Tests.csproj", "{EFB5BFBA-97E5-4BFB-AEE0-C5EC168C5B25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthChecks.OpenTelemetry.Instrumentation.Tests", "test\HealthChecks.OpenTelemetry.Instrumentation.Tests\HealthChecks.OpenTelemetry.Instrumentation.Tests.csproj", "{EFB5BFBA-97E5-4BFB-AEE0-C5EC168C5B25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

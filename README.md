@@ -90,9 +90,9 @@ services.AddOpenTelemetry()
 
 Gets the health status of the component that was checked, converted to double value (0 == Unhealthy, 0.5 == Degraded, 1 == Healthy).
 
-| Units | Instrument Type         | Value Type |
-|-------|-------------------------|------------|
-| `status`  | ObservableGauge | `Double`   |
+| Units | Instrument Type | Value Type | Attribute Key(s) | Attribute Values |
+|-|-|-|-|-|
+| `status` | ObservableGauge | `Double`    | name       | name of each executed health check |
 
 The API used to retrieve the value is:
 
@@ -102,9 +102,9 @@ The API used to retrieve the value is:
 
 Gets the health check execution duration.
 
-| Units | Instrument Type         | Value Type |
-|-------|-------------------------|------------|
-|  `seconds` | ObservableGauge | `Double`   |
+| Units | Instrument Type | Value Type | Attribute Key(s) | Attribute Values |
+|-|-|-|-|-|
+| `seconds` | ObservableGauge | `Double`    | name       | name of each executed health check |
 
 The API used to retrieve the value is:
 

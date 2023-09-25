@@ -2,6 +2,8 @@
 
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Bullseye;
 using static Bullseye.Targets;
 using static SimpleExec.Command;
@@ -62,7 +64,14 @@ public class TargetsCommand : Command
             Target(Targets.RunTestsCoverage, DependsOn(Targets.RestoreTools, Targets.RunTests), () =>
             {
                 Run("dotnet",
-                    $"reportgenerator -reports:{testOutputPath}/**/*cobertura.xml -targetdir:{reportsOutputPath} -reporttypes:HtmlSummary");
+                    $"reportgenerator -reports:{testOutputPath}/**/*cobertura.xml -targetdir:{reportsOutputPath} -reporttypes:HtmlInline;TextSummary");
+
+                // Print text summary to console
+                var readText = File.ReadAllText(Path.Combine(reportsOutputPath, "Summary.txt"));
+                context.Console.WriteLine(readText);
+
+                //OpenUrl(Path.Combine(reportsOutputPath, "index.html"));
+
             });
 
             await RunBullseyeTargetsAsync(context);
@@ -88,6 +97,26 @@ public class TargetsCommand : Command
             context.ParseResult.GetValueForOption(Options.OfType<Option<bool>>()
                 .Single(option => option.HasAlias(definition.Aliases[0]))))));
         await RunTargetsWithoutExitingAsync(targets, options);
+    }
+
+    private void OpenUrl(string url)
+    {
+        // todo: need detection for CI execution
+        // ref: https://stackoverflow.com/a/43232486
+        // ref: https://github.com/dotnet/corefx/issues/10361
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            url = url.Replace("&", "^&");
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            Process.Start("xdg-open", url);
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            Process.Start("open", url);
+        }
     }
 }
 
