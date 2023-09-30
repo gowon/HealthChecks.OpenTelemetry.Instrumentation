@@ -10,9 +10,7 @@ This is an [Instrumentation Library](https://github.com/open-telemetry/opentelem
 
 ### Step 1: Install package
 
-Add a reference to the
-[`HealthChecks.OpenTelemetry.Instrumentation`](https://www.nuget.org/packages/HealthChecks.OpenTelemetry.Instrumentation)
-package.
+Add a reference to the [`HealthChecks.OpenTelemetry.Instrumentation`](https://www.nuget.org/packages/HealthChecks.OpenTelemetry.Instrumentation) package.
 
 ```shell
 dotnet add package HealthChecks.OpenTelemetry.Instrumentation
