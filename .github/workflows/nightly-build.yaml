@@ -10,6 +10,7 @@ env:
   DOTNET_NOLOGO: true
 
 jobs:
+  # https://stackoverflow.com/a/67527144
   check_date:
     runs-on: ubuntu-latest
     name: Check latest commit
@@ -18,7 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # https://github.com/devlooped/GitInfo/issues/140#issuecomment-757224054
           fetch-depth: 0
           ref: dev
       
@@ -29,28 +29,29 @@ jobs:
         continue-on-error: true
         name: check latest commit is less than a day
         if: ${{ github.event_name == 'schedule' }}
-        run: test -z $(git rev-list  --after="24 hours" ${{ github.sha }}) && echo "::set-output name=should_run::false"
+        run: test -z $(git rev-list --after="24 hours" ${{ github.sha }}) && echo "::set-output name=should_run::false"
   
   build:
-    # https://stackoverflow.com/a/67527144/7644876
     needs: check_date
     if: ${{ needs.check_date.outputs.should_run != 'false' }}
     runs-on: ubuntu-latest
     steps:
-    - name: Add mask
-      run: |
-        echo "::add-mask::${{ secrets.FEEDZ_API_KEY }}"
+      - name: Add mask
+        run: |
+          echo "::add-mask::${{ secrets.FEEDZ_API_KEY }}"
 
-    - uses: actions/checkout@v4
-      with:
-        ref: dev
+      # https://gitversion.net/docs/reference/requirements
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: dev
 
-    - uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '7.x'
-    
-    - name: Build solution
-      run: dotnet run --project build/build.csproj --configuration Release -- targets pack
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.x'
+      
+      - name: Build solution
+        run: dotnet run --project build/build.csproj --configuration Release -- targets pack
 
-    - name: Publish the pre-release package
-      run: dotnet nuget push ${{ env.GITHUB_WORKSPACE }}/**/*.nupkg --api-key ${{ secrets.FEEDZ_API_KEY }} --source https://f.feedz.io/gowon/pre-release/nuget/index.json --skip-duplicate
+      - name: Publish the pre-release package
+        run: dotnet nuget push ${{ env.GITHUB_WORKSPACE }}/**/*.nupkg --api-key ${{ secrets.FEEDZ_API_KEY }} --source https://f.feedz.io/gowon/pre-release/nuget/index.json --skip-duplicate
