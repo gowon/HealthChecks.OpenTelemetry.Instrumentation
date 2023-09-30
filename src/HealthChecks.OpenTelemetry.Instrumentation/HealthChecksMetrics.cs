@@ -11,48 +11,37 @@ internal class HealthChecksMetrics
     // ref: https://www.thorsten-hans.com/instrumenting-dotnet-apps-with-opentelemetry
     internal static readonly Meter MeterInstance = new(AssemblyName.Name, AssemblyName.Version.ToString());
 
-    private HealthReport? _sharedReport;
+    private readonly HealthCheckService _healthCheckService;
+    private HealthReport? _cachedReport;
     private bool _useCachedReport;
 
     public HealthChecksMetrics(HealthCheckService healthCheckService, HealthChecksInstrumentationOptions options)
     {
-        _ = healthCheckService ?? throw new ArgumentNullException(nameof(healthCheckService));
+        _healthCheckService = healthCheckService ?? throw new ArgumentNullException(nameof(healthCheckService));
 
         MeterInstance.CreateObservableGauge(options.StatusGaugeName,
-            () =>
-            {
-                // todo: feels like there is a better way to share the result between these two gauges
-                if (!_useCachedReport || _sharedReport == null)
-                {
-                    _useCachedReport = true;
-                    _sharedReport = healthCheckService.CheckHealthAsync().GetAwaiter().GetResult();
-                    return _sharedReport.Entries.Select(entry => new Measurement<double>(
-                        HealthStatusToMetricValue(entry.Value.Status),
-                        new KeyValuePair<string, object?>("name", entry.Key)));
-                }
-
-                _useCachedReport = false;
-                return _sharedReport.Entries.Select(entry => new Measurement<double>(
-                    HealthStatusToMetricValue(entry.Value.Status),
-                    new KeyValuePair<string, object?>("name", entry.Key)));
-            }, "status", HealthChecksInstrumentationOptions.HealthCheckDescription);
+            () => ProcessCachedReport((name, entry) => new Measurement<double>(HealthStatusToMetricValue(entry.Status),
+                new KeyValuePair<string, object?>("name", name))), "status",
+            HealthChecksInstrumentationOptions.HealthCheckDescription);
 
         MeterInstance.CreateObservableGauge(options.DurationGaugeName,
-            () =>
-            {
-                if (!_useCachedReport || _sharedReport == null)
-                {
-                    _useCachedReport = true;
-                    _sharedReport = healthCheckService.CheckHealthAsync().GetAwaiter().GetResult();
-                    return _sharedReport.Entries.Select(entry => new Measurement<double>(
-                        entry.Value.Duration.TotalSeconds,
-                        new KeyValuePair<string, object?>("name", entry.Key)));
-                }
+            () => ProcessCachedReport((name, entry) => new Measurement<double>(entry.Duration.TotalSeconds,
+                new KeyValuePair<string, object?>("name", name))), "seconds",
+            HealthChecksInstrumentationOptions.HealthCheckDurationDescription);
+    }
 
-                _useCachedReport = false;
-                return _sharedReport.Entries.Select(entry => new Measurement<double>(entry.Value.Duration.TotalSeconds,
-                    new KeyValuePair<string, object?>("name", entry.Key)));
-            }, "seconds", HealthChecksInstrumentationOptions.HealthCheckDurationDescription);
+    private IEnumerable<Measurement<double>> ProcessCachedReport(
+        Func<string, HealthReportEntry, Measurement<double>> processEntry)
+    {
+        if (!_useCachedReport || _cachedReport == null)
+        {
+            _useCachedReport = true;
+            _cachedReport = _healthCheckService.CheckHealthAsync().GetAwaiter().GetResult();
+            return _cachedReport.Entries.Select(entry => processEntry.Invoke(entry.Key, entry.Value));
+        }
+
+        _useCachedReport = false;
+        return _cachedReport.Entries.Select(entry => processEntry.Invoke(entry.Key, entry.Value));
     }
 
     internal static double HealthStatusToMetricValue(HealthStatus status)

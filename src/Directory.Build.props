@@ -8,4 +8,24 @@
         <_Parameter1>$(AssemblyName).Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
+
+  <PropertyGroup Label="NuspecProperties">
+		<Authors>Gowon Patterson</Authors>
+		<!-- <Description>Provides instrumentation for .NET Core Diagnostics and collects telemetry about the application Health Checks.</Description> -->
+		<Copyright>© Gowon Patterson. All rights reserved.</Copyright>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/gowon/HealthChecks.OpenTelemetry.Instrumentation</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<!-- <PackageTags>metrics healthchecks opentelemetry</PackageTags> -->
+		<PackageProjectUrl>https://github.com/gowon/HealthChecks.OpenTelemetry.Instrumentation</PackageProjectUrl>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
 </Project>

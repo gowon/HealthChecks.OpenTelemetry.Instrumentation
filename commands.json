@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/commands.json",
+  "commands": {
+    "Run tests": {
+      "fileName": "dotnet.exe",
+      "workingDirectory": ".",
+      "arguments": "run --project $(SolutionDir)/build/build.csproj -c Release -- targets run-tests"
+    },
+    "Run tests coverage": {
+      "fileName": "dotnet.exe",
+      "workingDirectory": ".",
+      "arguments": "run --project $(SolutionDir)/build/build.csproj -c Release -- targets run-tests-coverage"
+    }
+  }
+}
