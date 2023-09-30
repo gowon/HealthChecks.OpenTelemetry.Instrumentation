@@ -1,11 +1,10 @@
 # HealthChecks Instrumentation for OpenTelemetry .NET
 
+[![Nuget (with prereleases)](https://img.shields.io/nuget/v/HealthChecks.OpenTelemetry.Instrumentation)](https://www.nuget.org/packages/HealthChecks.OpenTelemetry.Instrumentation)
+[![NuGet download count badge](https://img.shields.io/nuget/dt/HealthChecks.OpenTelemetry.Instrumentation)](https://www.nuget.org/packages/HealthChecks.OpenTelemetry.Instrumentation)
 [![feedz.io](https://img.shields.io/badge/endpoint.svg?url=https%3A%2F%2Ff.feedz.io%2Fgowon%2Fpre-release%2Fshield%2FHealthChecks.OpenTelemetry.Instrumentation%2Flatest)](https://f.feedz.io/gowon/pre-release/packages/HealthChecks.OpenTelemetry.Instrumentation/latest/download)
 
-This is an [Instrumentation
-Library](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/glossary.md#instrumentation-library),
-which instruments [ Microsoft.Extensions.Diagnostics.HealthChecks](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks) and
-collect telemetry about the application health checks.
+This is an [Instrumentation Library](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/glossary.md#instrumentation-library), which instruments [Microsoft.Extensions.Diagnostics.HealthChecks](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks) and collect telemetry about the application health checks.
 
 ## Steps to enable HealthChecks.OpenTelemetry.Instrumentation
 
@@ -21,11 +20,7 @@ dotnet add package HealthChecks.OpenTelemetry.Instrumentation
 
 ### Step 2: Enable HealthChecks Instrumentation
 
-HealthChecks instrumentation should be enabled at application startup using the `AddHealthChecksInstrumentation` extension on `MeterProviderBuilder`. The following example demonstrates adding HealthChecks
-instrumentation to a console application. This example also sets up the
-OpenTelemetry Console exporter, which requires adding the package
-[`OpenTelemetry.Exporter.Console`](https://github.com/open-telemetry/opentelemetry-dotnet/blob/main/src/OpenTelemetry.Exporter.Console/README.md)
-to the application:
+HealthChecks instrumentation should be enabled at application startup using the `AddHealthChecksInstrumentation` extension on `MeterProviderBuilder`. The following example demonstrates adding HealthChecks instrumentation to a console application. This example also sets up the OpenTelemetry Console exporter, which requires adding the package [`OpenTelemetry.Exporter.Console`](https://github.com/open-telemetry/opentelemetry-dotnet/blob/main/src/OpenTelemetry.Exporter.Console/README.md) to the application:
 
 ```csharp
 using OpenTelemetry;
@@ -43,17 +38,13 @@ public class Program
 }
 ```
 
-For an ASP.NET Core application, adding instrumentation is typically done in
-the `ConfigureServices` of your `Startup` class. Refer to documentation for
-[OpenTelemetry.Instrumentation.AspNetCore](https://github.com/open-telemetry/opentelemetry-dotnet/blob/main/src/OpenTelemetry.Instrumentation.AspNetCore/README.md).
+For an ASP.NET Core application, adding instrumentation is typically done in the `ConfigureServices` of your `Startup` class. Refer to documentation for [OpenTelemetry.Instrumentation.AspNetCore](https://github.com/open-telemetry/opentelemetry-dotnet/blob/main/src/OpenTelemetry.Instrumentation.AspNetCore/README.md).
 
-Refer to [Program.cs](samples/SampleApi/Program.cs) for a
-complete demo.
+Refer to [Program.cs](samples/SampleApi/Program.cs) for a complete demo.
 
 ### Advanced configuration
 
-This instrumentation can be configured to change the default behavior by using
-`HealthChecksInstrumentationOptions`.
+This instrumentation can be configured to change the default behavior by using `HealthChecksInstrumentationOptions`.
 
 ```csharp
 services.AddOpenTelemetry()
@@ -66,11 +57,7 @@ services.AddOpenTelemetry()
         .AddConsoleExporter());
 ```
 
-When used with
-[`OpenTelemetry.Extensions.Hosting`](https://github.com/open-telemetry/opentelemetry-dotnet/blob/main/src/OpenTelemetry.Extensions.Hosting/README.md),
-all configurations to `HealthChecksInstrumentationOptions`
-can be done in the `ConfigureServices` method of you applications `Startup`
-class as shown below.
+When used with [`OpenTelemetry.Extensions.Hosting`](https://github.com/open-telemetry/opentelemetry-dotnet/blob/main/src/OpenTelemetry.Extensions.Hosting/README.md), all configurations to `HealthChecksInstrumentationOptions` can be done in the `ConfigureServices` method of you applications `Startup` class as shown below.
 
 ```csharp
 // Configure
