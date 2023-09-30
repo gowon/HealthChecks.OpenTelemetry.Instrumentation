@@ -16,7 +16,7 @@ jobs:
     outputs:
       should_run: ${{ steps.should_run.outputs.should_run }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           # https://github.com/devlooped/GitInfo/issues/140#issuecomment-757224054
           fetch-depth: 0
@@ -40,6 +40,10 @@ jobs:
     - name: Add mask
       run: |
         echo "::add-mask::${{ secrets.FEEDZ_API_KEY }}"
+
+    - uses: actions/checkout@v4
+      with:
+        ref: dev
 
     - uses: actions/setup-dotnet@v3
       with:
